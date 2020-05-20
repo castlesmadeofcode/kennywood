@@ -4,12 +4,11 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from kennywoodapi.models import ParkArea
+from kennywoodapi.models import ParkArea, Attraction
 
 
 class ParkAreaSerializer(serializers.HyperlinkedModelSerializer):
     """JSON serializer for park areas
-
     Arguments:
         serializers
     """
@@ -19,7 +18,8 @@ class ParkAreaSerializer(serializers.HyperlinkedModelSerializer):
             view_name='parkarea',
             lookup_field='id'
         )
-        fields = ('id', 'url', 'name', 'theme')
+        fields = ('id', 'url', 'name', 'theme', 'attractions')
+        depth = 2
 
 
 class ParkAreas(ViewSet):
@@ -27,7 +27,6 @@ class ParkAreas(ViewSet):
 
     def create(self, request):
         """Handle POST operations
-
         Returns:
             Response -- JSON serialized ParkArea instance
         """
@@ -42,7 +41,6 @@ class ParkAreas(ViewSet):
 
     def retrieve(self, request, pk=None):
         """Handle GET requests for single park area
-
         Returns:
             Response -- JSON serialized park area instance
         """
@@ -55,7 +53,6 @@ class ParkAreas(ViewSet):
 
     def update(self, request, pk=None):
         """Handle PUT requests for a park area
-
         Returns:
             Response -- Empty body with 204 status code
         """
@@ -68,7 +65,6 @@ class ParkAreas(ViewSet):
 
     def destroy(self, request, pk=None):
         """Handle DELETE requests for a single park area
-
         Returns:
             Response -- 200, 404, or 500 status code
         """
@@ -86,7 +82,6 @@ class ParkAreas(ViewSet):
 
     def list(self, request):
         """Handle GET requests to park areas resource
-
         Returns:
             Response -- JSON serialized list of park areas
         """
