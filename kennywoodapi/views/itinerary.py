@@ -43,22 +43,22 @@ class ItineraryItems(ViewSet):
             Response -- JSON serialized list of customer itineraries
         """
         customer = Customer.objects.get(user=request.auth.user)
-
         itineraries = Itinerary.objects.filter(customer=customer)
-
         serializer = ItineraryItemSerializer(
             itineraries, many=True, context={'request': request})
         return Response(serializer.data)
 
+        # itineraries = Itinerary.objects.all()
+
     def create(self, request):
 
-        attraction = Attraction.objects.get(pk=request.data["ride_id"])
+        attraction = Attraction.objects.get(pk=request.data["attraction_id"])
         customer = Customer.objects.get(user=request.auth.user)
 
         new_itinerary_item = Itinerary()
         new_itinerary_item.starttime = request.data["starttime"]
-        new_itinerary_item.customer = customer
         new_itinerary_item.attraction = attraction
+        new_itinerary_item.customer = customer
 
         new_itinerary_item.save()
 
